@@ -158,7 +158,6 @@ def build_tree(dataset,labels,features):
 	#若没有可划分的特征集,则返回数据集中出现次数最多的label
 	if len(features) == 0:
 		return most_occur_label(labels)
-	#若数据集趋于稳定，则返回数据集中出现次数最多的label
 	if cal_entropy(dataset) == 0:
 		return most_occur_label(labels)
 	split_feature_index = choose_best_fea_to_split(dataset,features)
