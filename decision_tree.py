@@ -167,10 +167,13 @@ def build_tree(dataset,labels,features):
 	#若划分特征的信息增益比小于阈值,则返回数据集中出现次数最多的label
 	if cal_info_gain_ratio(dataset,split_feature_index) < 0.3:
 		return most_occur_label(labels)
-	del(features[split_feature_index])
+	# 将划分的特征值去掉,为了避免原址删除造成的错误,重新复制了一份features
+        new_features = features[:]
+        del(new_features[split_feature_index])
+	# del(features[split_feature_index])
 	dataset_less,dataset_greater,labels_less,labels_greater = split_dataset(dataset,split_feature_index,labels)
-	decesion_tree[split_feature]['<='] = build_tree(dataset_less,labels_less,features)
-	decesion_tree[split_feature]['>'] = build_tree(dataset_greater,labels_greater,features)
+	decesion_tree[split_feature]['<='] = build_tree(dataset_less,labels_less,new_features)
+	decesion_tree[split_feature]['>'] = build_tree(dataset_greater,labels_greater,new_features)
 	return decesion_tree
 
 def store_tree(decesion_tree,filename):
