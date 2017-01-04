@@ -168,9 +168,10 @@ def build_tree(dataset,labels,features):
 	if cal_info_gain_ratio(dataset,split_feature_index) < 0.3:
 		return most_occur_label(labels)
 	del(features[split_feature_index])
+	cp_features = features[:]
 	dataset_less,dataset_greater,labels_less,labels_greater = split_dataset(dataset,split_feature_index,labels)
 	decesion_tree[split_feature]['<='] = build_tree(dataset_less,labels_less,features)
-	decesion_tree[split_feature]['>'] = build_tree(dataset_greater,labels_greater,features)
+	decesion_tree[split_feature]['>'] = build_tree(dataset_greater,labels_greater,cp_features)
 	return decesion_tree
 
 def store_tree(decesion_tree,filename):
